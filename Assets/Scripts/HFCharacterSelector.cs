@@ -9,15 +9,6 @@ public class HFCharacterSelector : MonoBehaviour
     public GameObject maleCharacter;
 
 
-    [Header("Тела")]
-    public SkinnedMeshRenderer femaleBody;
-    public SkinnedMeshRenderer maleBody;
-
-
-    [Header("Контроллер тела")]
-    public HFBodyController bodyController;
-
-
 
     public enum Gender
     {
@@ -55,35 +46,28 @@ public class HFCharacterSelector : MonoBehaviour
     void ApplyGender(Gender gender)
     {
 
-        if(gender == Gender.Female)
+        switch(gender)
         {
 
-            femaleCharacter.SetActive(true);
-            maleCharacter.SetActive(false);
+            case Gender.Female:
 
+                femaleCharacter.SetActive(true);
+                maleCharacter.SetActive(false);
 
-            if(bodyController != null)
-                bodyController.SetBody(femaleBody);
+                Debug.Log("Выбран: Female");
 
-
-            Debug.Log("Выбран: Female");
-
-        }
+                break;
 
 
 
-        if(gender == Gender.Male)
-        {
+            case Gender.Male:
 
-            femaleCharacter.SetActive(false);
-            maleCharacter.SetActive(true);
+                femaleCharacter.SetActive(false);
+                maleCharacter.SetActive(true);
 
+                Debug.Log("Выбран: Male");
 
-            if(bodyController != null)
-                bodyController.SetBody(maleBody);
-
-
-            Debug.Log("Выбран: Male");
+                break;
 
         }
 

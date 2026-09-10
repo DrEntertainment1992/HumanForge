@@ -4,178 +4,164 @@ using UnityEngine;
 public class HFBodyController : MonoBehaviour
 {
 
-    [Header("Активное тело")]
+    [Header("Тело")]
     public SkinnedMeshRenderer body;
 
 
-    [Header("Параметры тела")]
+    [Header("Корень персонажа")]
+    public Transform bodyRoot;
+
+
+
+    [Header("Рост")]
 
     [Range(140,220)]
     public float heightCm = 176;
 
 
+    public float baseHeightCm = 176;
+
+
+
+    [Header("Мышцы")]
     [Range(0,100)]
     public float muscle = 50;
 
 
+
+    [Header("Вес")]
     [Range(0,100)]
     public float weight = 50;
 
 
 
-    [Header("Базовый рост тела")]
-    public float baseHeightCm = 176;
+    private Vector3 startScale = Vector3.one;
 
 
 
-    private float startScale = 1f;
-
-
-
-    void Awake()
+    private void Awake()
     {
-        SaveBaseScale();
+        if(bodyRoot != null)
+        {
+            startScale = bodyRoot.localScale;
+        }
+
+
+        Debug.Log(
+            "HFBodyController Awake: "
+            + gameObject.name
+        );
     }
 
 
 
-    void Start()
+    private void Start()
     {
-        ApplyBody();
+        ApplyAll();
+
+
+        Debug.Log(
+            "HFBodyController Start: "
+            + gameObject.name
+        );
     }
 
 
 
-    void OnValidate()
+    private void Update()
     {
-        if(body == null)
-            return;
-
-
-        ApplyBody();
+        // только для теста
+        ApplyHeight();
     }
 
 
 
-    // =====================================================
-    // Установка тела
-    // Используется HFRigController
-    // =====================================================
+    private void OnValidate()
+    {
+        if(!Application.isPlaying)
+        {
+            ApplyAll();
+        }
+    }
+
+
+
+    // =====================================
+    // Публичные функции
+    // =====================================
+
+
+    public void SetHeight(float value)
+    {
+        heightCm = value;
+
+        Debug.Log(
+            "SetHeight: "
+            + value
+        );
+
+        ApplyHeight();
+    }
+
+
+
+    public void SetMuscle(float value)
+    {
+        muscle = value;
+
+        ApplyMorphs();
+    }
+
+
+
+    public void SetWeight(float value)
+    {
+        weight = value;
+
+        ApplyMorphs();
+    }
+
+
 
     public void SetBody(
         SkinnedMeshRenderer newBody
     )
     {
-
         body = newBody;
 
-
-        SaveBaseScale();
-
-
-        ApplyBody();
-
+        ApplyMorphs();
     }
 
 
 
 
+    // =====================================
+    // Применение
+    // =====================================
 
-    void SaveBaseScale()
+
+    private void ApplyAll()
     {
-
-        if(body == null)
-            return;
-
-
-        startScale =
-            body.transform.localScale.x;
-
-    }
-
-
-
-
-
-    // =====================================================
-    // ПУБЛИЧНЫЕ НАСТРОЙКИ
-    // =====================================================
-
-
-    public void SetHeight(
-        float value
-    )
-    {
-
-        heightCm = value;
-
         ApplyHeight();
-
-    }
-
-
-
-
-
-    public void SetMuscle(
-        float value
-    )
-    {
-
-        muscle = value;
-
         ApplyMorphs();
-
     }
 
 
 
 
 
-    public void SetWeight(
-        float value
-    )
+    private void ApplyHeight()
     {
 
-        weight = value;
+        if(bodyRoot == null)
+        {
+            Debug.LogError(
+                "BodyRoot пустой у "
+                + gameObject.name
+            );
 
-        ApplyMorphs();
-
-    }
-
-
-
-
-
-
-    // =====================================================
-    // ОБНОВЛЕНИЕ
-    // =====================================================
-
-
-    void ApplyBody()
-    {
-
-        ApplyHeight();
-
-        ApplyMorphs();
-
-    }
-
-
-
-
-
-    // =====================================================
-    // РОСТ
-    // =====================================================
-
-
-    void ApplyHeight()
-    {
-
-        if(body == null)
             return;
+        }
 
 
 
@@ -185,13 +171,20 @@ public class HFBodyController : MonoBehaviour
 
 
 
-        // меняем только тело
-        // НЕ Human_BASE
+        bodyRoot.localScale =
+            startScale * scale;
 
-        body.transform.localScale =
-            Vector3.one *
-            (startScale * scale);
 
+
+        Debug.Log(
+            "Рост применён: "
+            + gameObject.name
+            + " "
+            + heightCm
+            + "cm"
+            + " scale="
+            + scale
+        );
 
     }
 
@@ -199,14 +192,12 @@ public class HFBodyController : MonoBehaviour
 
 
 
+    // =====================================
+    // BlendShapes
+    // =====================================
 
 
-    // =====================================================
-    // MORPH SHAPES
-    // =====================================================
-
-
-    void ApplyMorphs()
+    private void ApplyMorphs()
     {
 
         if(body == null)
@@ -230,7 +221,6 @@ public class HFBodyController : MonoBehaviour
         );
 
 
-
         SetBlend(
             "HF_Weight_Thin",
             100 - weight
@@ -248,7 +238,7 @@ public class HFBodyController : MonoBehaviour
 
 
 
-    void SetBlend(
+    private void SetBlend(
         string name,
         float value
     )
@@ -275,7 +265,5 @@ public class HFBodyController : MonoBehaviour
         );
 
     }
-
-
 
 }
