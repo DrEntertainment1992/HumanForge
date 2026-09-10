@@ -18,7 +18,7 @@ public class CharacterUIController : MonoBehaviour
 
     private void Start()
     {
-        currentController = femaleController;
+        SelectFemale();
     }
 
 
@@ -27,7 +27,10 @@ public class CharacterUIController : MonoBehaviour
     {
         currentController = femaleController;
 
-        Debug.Log("Выбрана женщина");
+        Debug.Log(
+            "UI контроллер: Женщина " +
+            currentController
+        );
     }
 
 
@@ -36,37 +39,49 @@ public class CharacterUIController : MonoBehaviour
     {
         currentController = maleController;
 
-        Debug.Log("Выбран мужчина");
+        Debug.Log(
+            "UI контроллер: Мужчина " +
+            currentController
+        );
     }
 
 
 
     public void SetHeight(float value)
     {
-        if(currentController != null)
+        if(currentController == null)
         {
-            currentController.SetHeight(value);
+            Debug.LogWarning("Нет выбранного тела");
+            return;
         }
+
+        currentController.SetHeight(value);
     }
 
 
 
     public void SetMuscle(float value)
     {
-        if(currentController != null)
+        if(currentController == null)
         {
-            currentController.SetMuscle(value);
+            Debug.LogWarning("Нет выбранного тела");
+            return;
         }
+
+        currentController.SetMuscle(value);
     }
 
 
 
     public void SetWeight(float value)
     {
-        if(currentController != null)
+        if(currentController == null)
         {
-            currentController.SetWeight(value);
+            Debug.LogWarning("Нет выбранного тела");
+            return;
         }
+
+        currentController.SetWeight(value);
     }
 
 }

@@ -13,25 +13,30 @@ public class HFRigController : MonoBehaviour
 
 
     [Header("Стартовый пол")]
-    [SerializeField]
-    private CharacterGender currentGender =
+    public CharacterGender startGender =
         CharacterGender.Female;
 
 
 
     [Header("Персонажи")]
-    [SerializeField]
-    private GameObject femaleCharacter;
+    public GameObject femaleCharacter;
+
+    public GameObject maleCharacter;
 
 
-    [SerializeField]
-    private GameObject maleCharacter;
+
+    [Header("UI контроллер")]
+    public CharacterUIController uiController;
+
+
+
+    private CharacterGender currentGender;
 
 
 
     private void Start()
     {
-        ApplyGender();
+        SetGender(startGender);
     }
 
 
@@ -39,10 +44,7 @@ public class HFRigController : MonoBehaviour
 
     public void SetFemale()
     {
-        currentGender =
-            CharacterGender.Female;
-
-        ApplyGender();
+        SetGender(CharacterGender.Female);
     }
 
 
@@ -50,10 +52,7 @@ public class HFRigController : MonoBehaviour
 
     public void SetMale()
     {
-        currentGender =
-            CharacterGender.Male;
-
-        ApplyGender();
+        SetGender(CharacterGender.Male);
     }
 
 
@@ -62,38 +61,24 @@ public class HFRigController : MonoBehaviour
     public void ToggleGender()
     {
 
-        if(currentGender ==
-           CharacterGender.Female)
-        {
+        if(currentGender == CharacterGender.Female)
             SetMale();
-        }
         else
-        {
             SetFemale();
-        }
 
     }
 
 
 
 
-    private void ApplyGender()
+    private void SetGender(CharacterGender gender)
     {
 
-        if(femaleCharacter == null ||
-           maleCharacter == null)
-        {
-            Debug.LogWarning(
-                "HFRigController: не назначены персонажи"
-            );
-
-            return;
-        }
+        currentGender = gender;
 
 
 
-        if(currentGender ==
-           CharacterGender.Female)
+        if(gender == CharacterGender.Female)
         {
 
             femaleCharacter.SetActive(true);
@@ -101,7 +86,13 @@ public class HFRigController : MonoBehaviour
             maleCharacter.SetActive(false);
 
 
-            Debug.Log("Активен Female");
+
+            if(uiController != null)
+                uiController.SelectFemale();
+
+
+
+            Debug.Log("Активна женщина");
 
         }
         else
@@ -112,7 +103,13 @@ public class HFRigController : MonoBehaviour
             maleCharacter.SetActive(true);
 
 
-            Debug.Log("Активен Male");
+
+            if(uiController != null)
+                uiController.SelectMale();
+
+
+
+            Debug.Log("Активен мужчина");
 
         }
 

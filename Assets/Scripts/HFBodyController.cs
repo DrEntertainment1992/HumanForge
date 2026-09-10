@@ -8,6 +8,7 @@ public class HFBodyController : MonoBehaviour
     public SkinnedMeshRenderer body;
 
 
+
     [Header("Корень персонажа")]
     public Transform bodyRoot;
 
@@ -35,44 +36,12 @@ public class HFBodyController : MonoBehaviour
 
 
 
-    private Vector3 startScale = Vector3.one;
-
-
-
-    private void Awake()
-    {
-        if(bodyRoot != null)
-        {
-            startScale = bodyRoot.localScale;
-        }
-
-
-        Debug.Log(
-            "HFBodyController Awake: "
-            + gameObject.name
-        );
-    }
-
-
 
     private void Start()
     {
         ApplyAll();
-
-
-        Debug.Log(
-            "HFBodyController Start: "
-            + gameObject.name
-        );
     }
 
-
-
-    private void Update()
-    {
-        // только для теста
-        ApplyHeight();
-    }
 
 
 
@@ -86,6 +55,8 @@ public class HFBodyController : MonoBehaviour
 
 
 
+
+
     // =====================================
     // Публичные функции
     // =====================================
@@ -93,61 +64,66 @@ public class HFBodyController : MonoBehaviour
 
     public void SetHeight(float value)
     {
+
         heightCm = value;
 
-        Debug.Log(
-            "SetHeight: "
-            + value
-        );
-
         ApplyHeight();
+
     }
+
+
 
 
 
     public void SetMuscle(float value)
     {
+
         muscle = value;
 
         ApplyMorphs();
+
     }
+
+
 
 
 
     public void SetWeight(float value)
     {
+
         weight = value;
 
         ApplyMorphs();
+
     }
 
 
-
-    public void SetBody(
-        SkinnedMeshRenderer newBody
-    )
-    {
-        body = newBody;
-
-        ApplyMorphs();
-    }
 
 
 
 
     // =====================================
-    // Применение
+    // Обновление тела
     // =====================================
 
 
     private void ApplyAll()
     {
+
         ApplyHeight();
+
         ApplyMorphs();
+
     }
 
 
 
+
+
+
+    // =====================================
+    // Рост
+    // =====================================
 
 
     private void ApplyHeight()
@@ -156,7 +132,7 @@ public class HFBodyController : MonoBehaviour
         if(bodyRoot == null)
         {
             Debug.LogError(
-                "BodyRoot пустой у "
+                "Нет Body Root у "
                 + gameObject.name
             );
 
@@ -172,21 +148,20 @@ public class HFBodyController : MonoBehaviour
 
 
         bodyRoot.localScale =
-            startScale * scale;
+            Vector3.one * scale;
 
 
 
         Debug.Log(
-            "Рост применён: "
+            "Рост: "
             + gameObject.name
             + " "
             + heightCm
-            + "cm"
-            + " scale="
-            + scale
+            + " см"
         );
 
     }
+
 
 
 
@@ -221,6 +196,7 @@ public class HFBodyController : MonoBehaviour
         );
 
 
+
         SetBlend(
             "HF_Weight_Thin",
             100 - weight
@@ -233,6 +209,7 @@ public class HFBodyController : MonoBehaviour
         );
 
     }
+
 
 
 
@@ -251,7 +228,14 @@ public class HFBodyController : MonoBehaviour
 
 
         if(index < 0)
+        {
+            Debug.LogWarning(
+                "Не найден BlendShape: "
+                + name
+            );
+
             return;
+        }
 
 
 
