@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class HFBodyUI : MonoBehaviour
 {
     [Header("Sliders")]
@@ -9,10 +10,12 @@ public class HFBodyUI : MonoBehaviour
     public Slider muscleSlider;
     public Slider heightSlider;
 
+
     [Header("Values")]
     public TMP_Text weightValue;
     public TMP_Text muscleValue;
     public TMP_Text heightValue;
+
 
     private void Start()
     {
@@ -20,23 +23,35 @@ public class HFBodyUI : MonoBehaviour
         muscleSlider.onValueChanged.AddListener(UpdateMuscleText);
         heightSlider.onValueChanged.AddListener(UpdateHeightText);
 
+        RefreshValues();
+    }
+
+
+    public void RefreshValues()
+    {
         UpdateWeightText(weightSlider.value);
         UpdateMuscleText(muscleSlider.value);
         UpdateHeightText(heightSlider.value);
     }
 
+
     private void UpdateWeightText(float value)
     {
-        weightValue.text = Mathf.RoundToInt(value * 100f) + "%";
+        weightValue.text =
+            Mathf.RoundToInt(value * 100f) + "%";
     }
+
 
     private void UpdateMuscleText(float value)
     {
-        muscleValue.text = Mathf.RoundToInt(value * 100f) + "%";
+        muscleValue.text =
+            Mathf.RoundToInt(value * 100f) + "%";
     }
+
 
     private void UpdateHeightText(float value)
     {
-        heightValue.text = Mathf.RoundToInt(value) + " см";
+        heightValue.text =
+            Mathf.RoundToInt(value) + " см";
     }
 }

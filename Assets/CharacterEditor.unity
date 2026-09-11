@@ -506,9 +506,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919132148518802442}
-        m_TargetAssemblyTypeName: HFCharacterSelector, Assembly-CSharp
-        m_MethodName: SelectMale
+      - m_Target: {fileID: 919132148518802441}
+        m_TargetAssemblyTypeName: HFRigController, Assembly-CSharp
+        m_MethodName: SetMale
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1037,8 +1037,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 710973144}
-        m_TargetAssemblyTypeName: HFBodyController, Assembly-CSharp
+      - m_Target: {fileID: 1701594428}
+        m_TargetAssemblyTypeName: CharacterUIController, Assembly-CSharp
         m_MethodName: SetMuscle
         m_Mode: 0
         m_Arguments:
@@ -1970,8 +1970,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 710973144}
-        m_TargetAssemblyTypeName: HFBodyController, Assembly-CSharp
+      - m_Target: {fileID: 1701594428}
+        m_TargetAssemblyTypeName: CharacterUIController, Assembly-CSharp
         m_MethodName: SetWeight
         m_Mode: 0
         m_Arguments:
@@ -2222,9 +2222,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919132148518802442}
-        m_TargetAssemblyTypeName: HFCharacterSelector, Assembly-CSharp
-        m_MethodName: SelectFemale
+      - m_Target: {fileID: 919132148518802441}
+        m_TargetAssemblyTypeName: HFRigController, Assembly-CSharp
+        m_MethodName: SetFemale
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4250,8 +4250,8 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 710973144}
-        m_TargetAssemblyTypeName: HFBodyController, Assembly-CSharp
+      - m_Target: {fileID: 1701594428}
+        m_TargetAssemblyTypeName: CharacterUIController, Assembly-CSharp
         m_MethodName: SetHeight
         m_Mode: 0
         m_Arguments:
@@ -7329,6 +7329,7 @@ GameObject:
   - component: {fileID: 1701594426}
   - component: {fileID: 1701594425}
   - component: {fileID: 1701594427}
+  - component: {fileID: 1701594428}
   m_Layer: 5
   m_Name: BodyPanel
   m_TagString: Untagged
@@ -7416,6 +7417,21 @@ MonoBehaviour:
   weightValue: {fileID: 1116648621}
   muscleValue: {fileID: 1448170877}
   heightValue: {fileID: 1016245054}
+--- !u!114 &1701594428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701594423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f77be92274d4c4093c3d71f4e3fd41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterUIController
+  femaleController: {fileID: 710973144}
+  maleController: {fileID: 1289325487}
+  bodyUI: {fileID: 1701594427}
 --- !u!1 &1701835575
 GameObject:
   m_ObjectHideFlags: 0
@@ -9327,7 +9343,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450652188774066}
-  - component: {fileID: 919132148518802442}
+  - component: {fileID: 919132148518802441}
   m_Layer: 0
   m_Name: Human_BASE
   m_TagString: Untagged
@@ -9335,7 +9351,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &919132148518802442
+--- !u!114 &919132148518802441
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9344,12 +9360,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132148518802440}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da8578efbb7d3d54aa7a748e45e30480, type: 3}
+  m_Script: {fileID: 11500000, guid: f097688376cc0094886c7415fbafb043, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HFCharacterSelector
+  m_EditorClassIdentifier: Assembly-CSharp::HFRigController
+  startGender: 0
   femaleCharacter: {fileID: 710973141}
   maleCharacter: {fileID: 1289325484}
-  startGender: 0
+  uiController: {fileID: 1701594428}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

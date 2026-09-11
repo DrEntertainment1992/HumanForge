@@ -3,17 +3,15 @@ using UnityEngine;
 
 public class CharacterUIController : MonoBehaviour
 {
-
-    [Header("Контроллеры тела")]
-
+    [Header("Контроллеры персонажей")]
     public HFBodyController femaleController;
-
     public HFBodyController maleController;
 
+    [Header("UI")]
+    public HFBodyUI bodyUI;
 
 
     private HFBodyController currentController;
-
 
 
     private void Start()
@@ -22,66 +20,95 @@ public class CharacterUIController : MonoBehaviour
     }
 
 
+    // =====================================================
+    // ВЫБОР ПЕРСОНАЖА
+    // =====================================================
 
     public void SelectFemale()
     {
         currentController = femaleController;
 
-        Debug.Log(
-            "UI контроллер: Женщина " +
-            currentController
-        );
-    }
+        LoadCurrentCharacterToUI();
 
+        Debug.Log("UI: выбрана женщина");
+    }
 
 
     public void SelectMale()
     {
         currentController = maleController;
 
-        Debug.Log(
-            "UI контроллер: Мужчина " +
-            currentController
-        );
+        LoadCurrentCharacterToUI();
+
+        Debug.Log("UI: выбран мужчина");
     }
 
 
+    // =====================================================
+    // СЛАЙДЕРЫ
+    // =====================================================
 
     public void SetHeight(float value)
     {
-        if(currentController == null)
-        {
-            Debug.LogWarning("Нет выбранного тела");
+        if (currentController == null)
             return;
-        }
 
         currentController.SetHeight(value);
     }
 
 
-
     public void SetMuscle(float value)
     {
-        if(currentController == null)
-        {
-            Debug.LogWarning("Нет выбранного тела");
+        if (currentController == null)
             return;
-        }
 
-        currentController.SetMuscle(value);
+        // Slider 0..1
+        // HFBodyController 0..100
+        currentController.SetMuscle(value * 100f);
     }
-
 
 
     public void SetWeight(float value)
     {
-        if(currentController == null)
-        {
-            Debug.LogWarning("Нет выбранного тела");
+        if (currentController == null)
             return;
-        }
 
-        currentController.SetWeight(value);
+        // Slider 0..1
+        // HFBodyController 0..100
+        currentController.SetWeight(value * 100f);
     }
 
+
+    // =====================================================
+    // ЗАГРУЗКА НАСТРОЕК В UI
+    // =====================================================
+
+    private void LoadCurrentCharacterToUI()
+    {
+        if (currentController == null)
+            return;
+
+        if (bodyUI == null)
+            return;
+
+
+        // ВАЖНО:
+        // SetValueWithoutNotify меняет положение ползунка,
+        // но НЕ вызывает SetHeight / SetMuscle / SetWeight.
+
+        bodyUI.heightSlider.SetValueWithoutNotify(
+            currentController.heightCm
+        );
+
+        bodyUI.muscleSlider.SetValueWithoutNotify(
+            currentController.muscle / 100f
+        );
+
+        bodyUI.weightSlider.SetValueWithoutNotify(
+            currentController.weight / 100f
+        );
+
+
+        bodyUI.RefreshValues();
+    }
 }
